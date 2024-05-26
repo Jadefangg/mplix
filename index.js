@@ -171,7 +171,7 @@ app.delete( '/users/:id/:movieTitle', passport.authenticate('jwt', {session: fal
       });
  })
 // READ: Handle GET request to retrieve all movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies', async (req, res) => {
     await Movies.find()
     .then((movies) => {
         res.status(201).json(TopMovies);
