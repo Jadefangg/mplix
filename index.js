@@ -17,7 +17,8 @@ app.use(express.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 const cors = require('cors');
 let allowedOrigins = ['*']; //CHANGED FOR TESTING <<<
-app.use(cors({
+//superflixknight.netlify.app
+app.use(cors({                                                    // C O R S
   origin: (origin, callback) => {
     if(!origin) return callback(null, true);
     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
