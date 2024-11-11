@@ -1,3 +1,4 @@
+//
 const express = require('express'),
 morgan = require('morgan'), 
 fs = require('fs'), 
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 const cors = require('cors');
-let allowedOrigins = ['*','superflixknight.netlify.app']; //CHANGED FOR TESTING <<<
+let allowedOrigins = ['*', 'https://fastidious-marshmallow-ac3897.netlify.app' ]; //CHANGED FOR TESTING <<<
 //superflixknight.netlify.app
 app.use(cors({                                                    // C O R S
   origin: (origin, callback) => {
