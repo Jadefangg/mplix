@@ -1,25 +1,36 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+//heroku push
+
+const express = require('express'),
+morgan = require('morgan'), 
+fs = require('fs'), 
+path = require('path'),
+bodyParser = require('body-parser'),
+uuid = require('uuid'),
+mongoose = require('mongoose');
 const Models = require('./models.js');
+const Movies = Models.Movies;//importing the movie model from models.js
+const Users = Models.Users;
+
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log('Database connected successfully'))
+.catch(err => console.log('Database connection error: ' + err)); //environment variable for connection URI
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true}));
 app.use(bodyParser.json());
-
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Database connected successfully'))
-  .catch(err => console.log('Database connection error: ' + err));
-
-// Allow all origins
-app.use(cors({
-  origin: '*'
+const cors = require('cors');
+let allowedOrigins = ['*', 'https://fastidious-marshmallow-ac3897.netlify.app' ]; //CHANGED FOR TESTING <<<
+app.use(cors({              // C O R S
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }//$env:CONNECTION_URI='mongodb+srv://sartajsingh:herokupassword@mplix.yivwrwe.mongodb.net/?retryWrites=true&w=majority&appName=mplix'
+    return callback(null, true); //heroku git:remote -a frozen-bastion-60513
+  }
 }));
-
-    //$env:CONNECTION_URI='mongodb+srv://sartajsingh:herokupassword@mplix.yivwrwe.mongodb.net/?retryWrites=true&w=majority&appName=mplix'
-
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
