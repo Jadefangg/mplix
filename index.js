@@ -16,11 +16,12 @@ mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnified
 .catch(err => console.log('Database connection error: ' + err)); //environment variable for connection URI
 
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 const cors = require('cors');
-let allowedOrigins = ['*', 'https://fastidious-marshmallow-ac3897.netlify.app' ]; //CHANGED FOR TESTING <<<
+let allowedOrigins = ['*', 'https://fastidious-marshmallow-ac3897.netlify.app/login ,https://fastidious-marshmallow-ac3897.netlify.app/signup' ]; //CHANGED FOR TESTING <<<
 app.use(cors({              // C O R S
   origin: (origin, callback) => {
     if(!origin) return callback(null, true);
